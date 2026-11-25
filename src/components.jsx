@@ -1,13 +1,5 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  Gamepad2,
-  Mail,
-  X,
-} from "lucide-react";
+import { ArrowRight, Gamepad2, Mail, X } from "lucide-react";
 import { createCassoGame } from "./casso";
 import { projectsData } from "./projects";
 
@@ -26,10 +18,6 @@ const activeFilterClass =
   "px-4 py-2 rounded-full bg-white text-black text-xs font-bold transition-all";
 const inactiveFilterClass =
   "px-4 py-2 rounded-full bg-[#161616] text-neutral-400 hover:text-white border border-white/10 text-xs font-semibold transition-all";
-
-function counter(index, total) {
-  return `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
-}
 
 function openEmailDraft(event) {
   event.preventDefault();
@@ -375,9 +363,9 @@ export function About({ openContactModal }) {
   );
 }
 
-export function ProjectCard({ project: proj, onOpen }) {
+export function ProjectCard({ project: proj }) {
   return (
-    <article className="work-card group cursor-pointer rounded-3xl bg-[#141414] border border-white/[0.08] hover:border-white/25 overflow-hidden flex flex-col transition-all">
+    <article className="work-card group relative cursor-pointer rounded-3xl bg-[#141414] border border-white/[0.08] hover:border-white/25 overflow-hidden flex flex-col transition-all">
       <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
         <img
           src={proj.coverUrl}
@@ -407,22 +395,21 @@ export function ProjectCard({ project: proj, onOpen }) {
           <span className="text-neutral-500 font-mono">
             {proj.slides.length} Mockups
           </span>
-          <button
-            onClick={onOpen}
-            aria-label={`View ${proj.title} gallery`}
-            type="button"
-            className="dynamic-accent-text inline-flex items-center gap-1.5 group-hover:translate-x-1 transition-transform"
+          <a
+            href={`#/works/${proj.id}`}
+            aria-label={`View ${proj.title} project details`}
+            className="dynamic-accent-text inline-flex items-center gap-1.5 after:absolute after:inset-0"
           >
-            View Gallery{" "}
+            View Project{" "}
             <ArrowRight aria-hidden="true" className="w-3.5 h-3.5" />
-          </button>
+          </a>
         </div>
       </div>
     </article>
   );
 }
 
-export function Works({ filter, setFilter, openProject }) {
+export function Works({ filter, setFilter }) {
   return (
     <section
       id="works"
@@ -458,155 +445,13 @@ export function Works({ filter, setFilter, openProject }) {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {projectsData.map(
-          (project, index) =>
+          (project) =>
             (filter === "all" || project.category === filter) && (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                onOpen={() => openProject(index)}
-              />
+              <ProjectCard key={project.id} project={project} />
             ),
         )}
       </div>
     </section>
-  );
-}
-
-export function ProjectDrawer({
-  open,
-  projectIndex,
-  slide,
-  setSlide,
-  closeCaseDrawer,
-  switchDrawerProject,
-  moveGallerySlide,
-}) {
-  const project = projectsData[projectIndex];
-  const swipeX = useRef(0);
-  const startSwipe = (event) => {
-    swipeX.current = event.changedTouches[0].clientX;
-  };
-  const endSwipe = (event) => {
-    const distance = event.changedTouches[0].clientX - swipeX.current;
-    if (Math.abs(distance) > 45) moveGallerySlide(distance < 0 ? 1 : -1);
-  };
-  return (
-    <div
-      id="caseStudyDrawer"
-      className={`case-drawer-backdrop fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex justify-end ${open ? "is-open" : ""}`}
-      inert={!open}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) closeCaseDrawer();
-      }}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="drawerProjectTitle"
-    >
-      <div className="case-drawer-panel relative w-full h-full bg-[#0C0C0C] flex flex-col overflow-hidden">
-        <div className="px-5 sm:px-10 py-4 bg-[#111111] border-b border-white/10 flex items-center justify-between gap-4 shrink-0">
-          <button
-            onClick={closeCaseDrawer}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white hover:text-black text-xs font-bold text-white transition-all"
-          >
-            <ArrowLeft aria-hidden="true" className="w-4 h-4" />
-            <span>Back to Portfolio</span>
-          </button>
-          <div className="text-center truncate">
-            <span
-              id="drawerIndexBadge"
-              className="text-[11px] font-mono text-neutral-400 block"
-            >
-              {counter(projectIndex, projectsData.length)}
-            </span>
-            <h3
-              id="drawerProjectTitle"
-              className="text-sm sm:text-base font-extrabold text-white truncate"
-            >
-              {project.title}
-            </h3>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => switchDrawerProject(-1)}
-              aria-label="Previous Project"
-              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
-            >
-              <ChevronLeft aria-hidden="true" className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => switchDrawerProject(1)}
-              aria-label="Next Project"
-              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
-            >
-              <ChevronRight aria-hidden="true" className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-        <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden">
-          <div
-            id="galleryViewport"
-            onTouchStart={startSwipe}
-            onTouchEnd={endSwipe}
-            className="relative w-full max-w-5xl min-h-[340px] md:min-h-[460px] max-h-[76vh] flex items-center justify-center rounded-3xl overflow-hidden bg-[#070707] border border-white/10 shadow-2xl select-none"
-          >
-            <div
-              id="gallerySliderTrack"
-              className="gallery-slider-track w-full items-center"
-              style={{ transform: `translate3d(-${slide * 100}%, 0, 0)` }}
-            >
-              {project.slides.map((src, index) => (
-                <div
-                  key={src}
-                  aria-hidden={index !== slide}
-                  className="gallery-slide flex items-center justify-center p-3 sm:p-6 bg-[#070707]"
-                >
-                  <img
-                    src={src}
-                    loading={index === slide ? "eager" : "lazy"}
-                    alt={`${project.title} mockup ${index + 1}`}
-                    className="w-auto h-auto max-w-full max-h-[74vh] mx-auto block object-contain rounded-xl shadow-lg"
-                  />
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={() => moveGallerySlide(-1)}
-              aria-label="Previous Slide"
-              className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/65 hover:bg-white hover:text-black text-white border border-white/15 backdrop-blur-md flex items-center justify-center transition-all"
-            >
-              <ArrowLeft aria-hidden="true" className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => moveGallerySlide(1)}
-              aria-label="Next Slide"
-              className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/65 hover:bg-white hover:text-black text-white border border-white/15 backdrop-blur-md flex items-center justify-center transition-all"
-            >
-              <ArrowRight aria-hidden="true" className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="mt-5 flex items-center gap-3">
-            <span
-              id="gallerySlideCounter"
-              className="text-xs font-mono text-neutral-400"
-            >
-              {counter(slide, project.slides.length)}
-            </span>
-            <div id="galleryDots" className="flex flex-wrap items-center gap-2">
-              {project.slides.map((src, index) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setSlide(index)}
-                  aria-label={`Slide ${index + 1}`}
-                  aria-current={index === slide ? "true" : undefined}
-                  className={`h-2 rounded-full transition-all ${index === slide ? "w-7 bg-white" : "w-2 bg-white/25 hover:bg-white/50"}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }
 

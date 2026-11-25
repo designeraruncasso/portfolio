@@ -8,15 +8,14 @@ import {
   Contact,
   ContactModal,
   Hero,
-  ProjectDrawer,
   Works,
 } from "./components";
+import { ProjectDetail } from "./project-detail";
 import { projectsData } from "./projects";
 import { startVisualEffects } from "./visual-effects";
 import "./styles.css";
 
 const dialogIds = {
-  project: "caseStudyDrawer",
   contact: "contactModal",
   casso: "cassoGameModal",
 };
@@ -25,30 +24,35 @@ function App() {
   const [monochrome, setMonochrome] = useState(false);
   const [filter, setFilter] = useState("all");
   const [dialog, setDialog] = useState(null);
-  const [projectIndex, setProjectIndex] = useState(0);
-  const [slide, setSlide] = useState(0);
+  const [hash, setHash] = useState(() => window.location.hash);
+  const detailRoute = hash.startsWith("#/works/");
+  const project = detailRoute
+    ? projectsData.find((item) => hash === `#/works/${item.id}`)
+    : undefined;
 
   const openCassoGame = () => setDialog("casso");
   const openContactModal = () => setDialog("contact");
   const closeDialog = () => setDialog(null);
 
-  function openProject(index) {
-    setProjectIndex(index);
-    setSlide(0);
-    setDialog("project");
-  }
+  useEffect(() => {
+    const updateHash = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", updateHash);
+    return () => window.removeEventListener("hashchange", updateHash);
+  }, []);
 
-  function switchDrawerProject(step) {
-    const count = projectsData.length;
-    setProjectIndex((index) => (index + step + count) % count);
-    setSlide(0);
-  }
+  useEffect(startVisualEffects, [detailRoute]);
 
-  const slideCount = projectsData[projectIndex].slides.length;
-  const moveGallerySlide = (step) =>
-    setSlide((index) => (index + step + slideCount) % slideCount);
-
-  useEffect(startVisualEffects, []);
+  useLayoutEffect(() => {
+    document.title = project
+      ? `${project.client} — Arun’s Portfolio`
+      : "Arun — Creative Director & Senior Graphic Designer";
+    if (detailRoute) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      document.getElementById("project-title")?.focus({ preventScroll: true });
+    } else if (hash === "#works") {
+      document.getElementById("works")?.scrollIntoView();
+    }
+  }, [hash, project, detailRoute]);
 
   useLayoutEffect(() => {
     document.body.classList.toggle("monochrome-mode", monochrome);
@@ -89,18 +93,6 @@ function App() {
     };
   }, [dialog]);
 
-  useEffect(() => {
-    if (dialog !== "project") return;
-    function handleGalleryKeys(event) {
-      if (event.key === "ArrowRight")
-        setSlide((index) => (index + 1) % slideCount);
-      if (event.key === "ArrowLeft")
-        setSlide((index) => (index + slideCount - 1) % slideCount);
-    }
-    document.addEventListener("keydown", handleGalleryKeys);
-    return () => document.removeEventListener("keydown", handleGalleryKeys);
-  }, [dialog, slideCount]);
-
   return (
     <>
       <div id="cursor-spotlight" aria-hidden="true" />
@@ -118,32 +110,25 @@ function App() {
             className="w-12 rounded-xl border border-white/20 bg-neutral-900 p-2 dynamic-accent-text"
           />
         </button>
-        <Hero
-          monochrome={monochrome}
-          toggleTheme={() => setMonochrome((value) => !value)}
-          openCassoGame={openCassoGame}
-          openContactModal={openContactModal}
-        />
-        <main>
-          <Brands />
-          <About openContactModal={openContactModal} />
-          <Works
-            filter={filter}
-            setFilter={setFilter}
-            openProject={openProject}
-          />
-          <Contact openCassoGame={openCassoGame} />
-        </main>
+        {detailRoute ? (
+          <ProjectDetail project={project} />
+        ) : (
+          <>
+            <Hero
+              monochrome={monochrome}
+              toggleTheme={() => setMonochrome((value) => !value)}
+              openCassoGame={openCassoGame}
+              openContactModal={openContactModal}
+            />
+            <main>
+              <Brands />
+              <About openContactModal={openContactModal} />
+              <Works filter={filter} setFilter={setFilter} />
+              <Contact openCassoGame={openCassoGame} />
+            </main>
+          </>
+        )}
       </div>
-      <ProjectDrawer
-        open={dialog === "project"}
-        projectIndex={projectIndex}
-        slide={slide}
-        setSlide={setSlide}
-        closeCaseDrawer={closeDialog}
-        switchDrawerProject={switchDrawerProject}
-        moveGallerySlide={moveGallerySlide}
-      />
       {dialog === "contact" && <ContactModal closeContactModal={closeDialog} />}
       <CassoModal open={dialog === "casso"} closeCassoGame={closeDialog} />
     </>

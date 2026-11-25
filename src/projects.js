@@ -1,6 +1,9 @@
 export const projectsData = [
   {
     id: "mebanka",
+    client: "Mebanka",
+    description:
+      "A visual identity for fintech brand Mebanka. The project brings a geometric monogram and a cohesive look to the brand’s digital materials.",
     title: "Mebanka Identity System",
     category: "Brand Identity",
     year: "2025",
@@ -23,7 +26,10 @@ export const projectsData = [
     ],
   },
   {
-    id: "Sunrise Hospital",
+    id: "sunrise-hospital",
+    client: "Sunrise Hospital",
+    description:
+      "A visual identity project for Sunrise Hospital, with a focus on editorial layouts and signage.",
     title: "Sunrise Hospital",
     category: "Brand Identity",
     year: "2025",
@@ -39,6 +45,9 @@ export const projectsData = [
   },
   {
     id: "kads-apacs",
+    client: "KADS India × Apacs Qatar",
+    description:
+      "A tournament campaign for KADS India and Apacs Qatar. The visual identity extends across arena banners and motion graphics.",
     title: "KADS India × Apacs Qatar",
     category: "Campaigns",
     year: "2024",
@@ -54,6 +63,9 @@ export const projectsData = [
   },
   {
     id: "nattuchela",
+    client: "Nattuchela",
+    description:
+      "Packaging for Nattuchela’s Kerala food products. Earth tones and tactile print finishes draw on the brand’s regional roots.",
     title: "Nattuchela Artisanal Packaging",
     category: "Packaging",
     year: "2024",
@@ -68,12 +80,14 @@ export const projectsData = [
     ],
   },
   {
-    id: "Treatwell",
+    id: "treatwell",
+    client: "Treatwell Homeopathy Clinic",
+    description:
+      "A monochrome editorial campaign for Treatwell Homeopathy Clinic, with custom typography at the centre of the visual direction.",
     title: "Treatwell Homeopathy Clinic",
     category: "Campaigns",
     year: "2024",
-    summary:
-      "Monochrome editorial campaign direction, custom typography, and woven label system.",
+    summary: "Monochrome editorial campaign direction and custom typography.",
     coverUrl:
       "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=80",
     slides: [
@@ -84,6 +98,9 @@ export const projectsData = [
   },
   {
     id: "samras",
+    client: "SAMRAS Botanical Reserve",
+    description:
+      "Packaging and retail display for SAMRAS Botanical Reserve. Amber-glass bottles and foil-stamped cartons carry a consistent visual identity.",
     title: "SAMRAS Botanical Reserve",
     category: "Packaging",
     year: "2023",

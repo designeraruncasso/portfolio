@@ -45,7 +45,7 @@ export function startVisualEffects() {
       () => spotlight.classList.remove("is-visible"),
       { signal },
     );
-    hero.addEventListener(
+    hero?.addEventListener(
       "pointermove",
       (event) => {
         const bounds = hero.getBoundingClientRect();
@@ -55,7 +55,7 @@ export function startVisualEffects() {
       },
       { signal, passive: true },
     );
-    hero.addEventListener(
+    hero?.addEventListener(
       "pointerleave",
       () => {
         tiltCard.style.transform = "";
