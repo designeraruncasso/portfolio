@@ -1,0 +1,430 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Theme Variables for Warm Editorial vs Monochrome Toggle */
+:root {
+  --hero-gradient: radial-gradient(
+    circle at 28% 22%,
+    #ff6b26 0%,
+    #d94111 32%,
+    #4a1405 68%,
+    #110806 100%
+  );
+  --accent-primary: #ff5500;
+  --accent-soft: rgba(255, 85, 0, 0.15);
+  --accent-text: #ff6b26;
+  --cursor-glow-inner: rgba(255, 140, 59, 0.24);
+  --cursor-glow-mid: rgba(255, 85, 0, 0.11);
+  --cursor-glow-outer: rgba(255, 85, 0, 0.03);
+}
+
+body.monochrome-mode {
+  --hero-gradient: radial-gradient(
+    circle at 28% 22%,
+    #525252 0%,
+    #262626 38%,
+    #121212 75%,
+    #080808 100%
+  );
+  --accent-primary: #ffffff;
+  --accent-soft: rgba(255, 255, 255, 0.12);
+  --accent-text: #d4d4d4;
+  --cursor-glow-inner: rgba(255, 255, 255, 0.16);
+  --cursor-glow-mid: rgba(229, 229, 229, 0.07);
+  --cursor-glow-outer: rgba(255, 255, 255, 0.02);
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Dynamic Accent Helpers */
+.dynamic-accent-bg {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+}
+body.monochrome-mode .dynamic-accent-bg {
+  color: #0a0a0a;
+}
+.dynamic-accent-text {
+  color: var(--accent-text);
+  transition: color 0.4s ease;
+}
+
+/* Single-Instance Soft Glowing Circle Spotlight */
+#cursor-spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 580px;
+  height: 580px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 45;
+  background: radial-gradient(
+    circle,
+    var(--cursor-glow-inner) 0%,
+    var(--cursor-glow-mid) 34%,
+    var(--cursor-glow-outer) 58%,
+    rgba(0, 0, 0, 0) 76%
+  );
+  filter: blur(24px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0);
+  transition:
+    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.35s ease,
+    height 0.35s ease;
+  will-change: transform, opacity;
+}
+
+#cursor-spotlight.is-visible {
+  opacity: 1;
+}
+
+#cursor-spotlight.is-expanded {
+  width: 680px;
+  height: 680px;
+}
+
+/* Hide cursor spotlight on touch-only devices */
+@media (hover: none) and (pointer: coarse) {
+  #cursor-spotlight {
+    display: none !important;
+  }
+}
+
+/* Hero Atmospheric Backdrop */
+.hero-container {
+  background: var(--hero-gradient);
+  border-radius: 0 0 36px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.6s ease;
+}
+
+/* 3D Perspective Tilt & Multi-Layered Depth for Hero Headline */
+.hero-tilt-stage {
+  perspective: 1100px;
+  transform-style: preserve-3d;
+}
+.hero-tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.hero-depth-kicker {
+  transform: translateZ(18px);
+  will-change: transform;
+}
+.hero-depth-line-1 {
+  display: inline-block;
+  transform: translateZ(42px);
+  text-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+  will-change: transform;
+}
+.hero-depth-line-2 {
+  display: inline-block;
+  transform: translateZ(26px);
+  text-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+}
+
+/* Feathered Portrait Mask */
+.hero-portrait-mask {
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 76% at 50% 42%,
+    #000000 44%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 94%
+  );
+  mask-image: radial-gradient(
+    ellipse 68% 76% at 50% 42%,
+    #000000 44%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 94%
+  );
+}
+
+/* Interactive Service Pillar Hover Glow */
+.pillar-item {
+  position: relative;
+  padding: 0.75rem 0.9rem;
+  border-radius: 1rem;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.pillar-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 30px -10px var(--accent-soft);
+  transform: translateY(-2px);
+}
+.pill-btn:hover .pill-arrow {
+  transform: rotate(-45deg);
+}
+.pill-arrow {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Showcase Card Hover */
+.work-card-img {
+  transition:
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.5s ease;
+}
+.work-card:hover .work-card-img {
+  transform: scale(1.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* Fade Up Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Infinite Brand Logo Marquee */
+@keyframes brandMarqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.brand-marquee-viewport {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000000 10%,
+    #000000 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000000 10%,
+    #000000 90%,
+    transparent 100%
+  );
+}
+
+.brand-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: brandMarqueeScroll 42s linear infinite;
+  will-change: transform;
+}
+
+.brand-marquee-viewport:hover .brand-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Highlighted 100+ Brands Pill Badge */
+.brands-count-badge {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 24px -6px var(--accent-soft);
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.brands-count-badge:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent-primary);
+}
+.brands-count-dot {
+  background-color: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1.5rem;
+  }
+}
+
+/* =====================================================================
+           SLIDE-IN INNER CASE STUDY VIEW & HORIZONTAL GALLERY STYLES
+        ====================================================================== */
+.case-drawer-backdrop {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.case-drawer-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.case-drawer-panel {
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.case-drawer-backdrop.is-open .case-drawer-panel {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Horizontal Mockup Slider Track */
+.gallery-slider-track {
+  display: flex;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.gallery-slide {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+/* Custom Scrollbar inside Drawer */
+.case-drawer-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.case-drawer-scroll::-webkit-scrollbar-track {
+  background: #0d0d0d;
+}
+.case-drawer-scroll::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 9999px;
+}
+
+/* =====================================================================
+           FIXED BOTTOM-EDGE CASSO MASCOT (CSS FLOAT BOUNCE + SCROLL WALK)
+        ====================================================================== */
+@keyframes cassoFloatBounce {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(1.5deg);
+  }
+}
+
+#casso-mascot-dock {
+  position: fixed;
+  bottom: 16px;
+  left: 20px;
+  z-index: 50;
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  user-select: none;
+  will-change: transform;
+}
+
+#casso-mascot-flip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+#casso-mascot-img {
+  height: 80px;
+  width: auto;
+  display: block;
+  transform-origin: center bottom;
+  animation: cassoFloatBounce 2.6s ease-in-out infinite;
+  filter: drop-shadow(0 6px 14px rgba(255, 115, 25, 0.55))
+    drop-shadow(0 0 18px rgba(255, 85, 0, 0.35));
+  transition: filter 0.35s ease;
+}
+
+#casso-mascot-dock:hover #casso-mascot-img {
+  filter: drop-shadow(0 8px 18px rgba(255, 130, 35, 0.8))
+    drop-shadow(0 0 24px rgba(255, 85, 0, 0.55));
+}
+
+.casso-mascot-badge {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(17, 17, 17, 0.92);
+  border: 1px solid rgba(255, 115, 25, 0.45);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+#casso-mascot-dock:hover .casso-mascot-badge {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.case-drawer-backdrop:not(.is-open) {
+  visibility: hidden;
+}
+#casso-mascot-dock:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  #casso-mascot-img,
+  .case-drawer-panel,
+  .gallery-slider-track {
+    animation: none;
+    transition: none;
+  }
+}
