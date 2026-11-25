@@ -39,7 +39,7 @@ export function ProjectDetail({ project }) {
               {project.description}
             </p>
           </header>
-          <div className="mt-7 flex flex-col gap-5 sm:mt-10 sm:gap-8">
+          <div className="mt-7 grid grid-cols-1 items-start gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
             {project.slides.map((src, index) => (
               <figure
                 key={src}
