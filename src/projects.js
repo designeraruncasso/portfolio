@@ -4,11 +4,11 @@ export const projectsData = [
     client: "Sports Creatives",
     description:
       "High-impact campaign visuals and promotional graphics crafted for premium sports brands. The collection blends bold typography with dynamic action to elevate brand presence across digital platforms.",
-    title: "Mebanka Identity System",
-    category: "Brand Identity",
+    title: "Sports Creatives",
+    category: "Campaigns",
     year: "2025",
     summary:
-      "Complete fintech brand architecture, geometric monogram, and digital collateral.",
+      "High-impact campaign visuals and promotional graphics crafted for premium sports brands. The collection blends bold typography with dynamic action to elevate brand presence across digital platforms.",
     coverUrl:
       "https://drive.google.com/thumbnail?id=1Q9qkUVI1BsZbcTDxKcbVbzqqtAZLVJaF&sz=w1600",
     slides: [
