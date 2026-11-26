@@ -27,21 +27,16 @@ export const projectsData = [
   },
   {
     id: "sunrise-hospital",
-    client: "Sunrise Hospital",
-    description:
-      "A visual identity project for Sunrise Hospital, with a focus on editorial layouts and signage.",
-    title: "Sunrise Hospital",
-    category: "Brand Identity",
+    client: "Health Care",
+    description: "A curated set of promotional graphics and awareness creatives built for hospitals, clinics, and wellness brands, pairing calm clarity with strong visual structure.",
+    title: "Health Care",
+    category: "Campaigns",
     year: "2025",
-    summary:
-      "Minimalist architectural visual identity, editorial lookbooks, and signage.",
-    coverUrl:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-    slides: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
-      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1400&q=85",
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1400&q=85",
-    ],
+    summary: "A curated set of promotional graphics and awareness creatives built for hospitals, clinics, and wellness brands, pairing calm clarity with strong visual structure.",
+    coverUrl: `${import.meta.env.BASE_URL}health-care/poster-02.webp`,
+    slides: Array.from({ length: 9 }, (_, index) =>
+      `${import.meta.env.BASE_URL}health-care/poster-${String(index + 2).padStart(2, "0")}.webp`,
+    ),
   },
   {
     id: "kads-apacs",
