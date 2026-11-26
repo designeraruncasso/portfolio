@@ -1,9 +1,9 @@
 export const projectsData = [
   {
     id: "mebanka",
-    client: "Mebanka",
+    client: "Sports Creatives",
     description:
-      "A visual identity for fintech brand Mebanka. The project brings a geometric monogram and a cohesive look to the brand’s digital materials.",
+      "High-impact campaign visuals and promotional graphics crafted for premium sports brands. The collection blends bold typography with dynamic action to elevate brand presence across digital platforms.",
     title: "Mebanka Identity System",
     category: "Brand Identity",
     year: "2025",
